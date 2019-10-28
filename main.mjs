@@ -1,28 +1,27 @@
 'use strict'
 
+import Config from './config.mjs'
 import Drawing from './drawing.mjs'
-import Snakes from './snakes.mjs'
 import Input from './input.mjs'
+import Snakes from './snakes.mjs'
 
-const width = 1280
-const height = 720
-
-const init = ({ width, height }) => {
+const init = ({ alpha, width, height }) => {
   const ctx = Drawing.init(width, height)
   const input = Input.init()
   return {
-    ctx,
-    input,
+    alpha,
     width,
     height,
-    delta: 0,
+    ctx,
+    input,
+    dt: 0,
     lastFrame: 0,
     snakes: [],
   }
 }
 
 const update = state => (now = 0) => {
-  state.delta = now - state.lastFrame
+  state.dt = now - state.lastFrame
   state.lastFrame = now
   Input.update(state)
   Snakes.update(state)
@@ -30,5 +29,9 @@ const update = state => (now = 0) => {
   window.requestAnimationFrame(update(state))
 }
 
-const state = init({ width, height })
+const state = init({
+  alpha: Config.alpha,
+  width: Config.width,
+  height: Config.height,
+})
 update(state)()

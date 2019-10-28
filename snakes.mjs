@@ -10,13 +10,18 @@ const TURN_RATE = 0.1
 
 const add = state => {
   const { width, height } = state
+  const [initialX, initialY] = [width / 2, height / 2]
   const snake = {
-    x: width / 2,
-    y: height / 2,
+    x: initialX,
+    y: initialY,
     length: LENGTH_MIN,
     rotation: -Math.PI / 2,
     radius: RADIUS,
     speed: 1,
+    prev: {
+      x: initialX,
+      y: initialY,
+    },
   }
   state.snakes.push(snake)
 }
@@ -33,6 +38,8 @@ const move = ({ width, height, input: { left, right, up, down } }) => snake => {
 
   const dx = snake.speed * Math.cos(snake.rotation)
   const dy = snake.speed * Math.sin(snake.rotation)
+  snake.prev.x = snake.x
+  snake.prev.y = snake.y
   snake.x += dx
   snake.y += dy
 

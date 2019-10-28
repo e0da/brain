@@ -12,13 +12,15 @@ const drawCircle = (ctx, x, y, radius) => {
   ctx.stroke()
 }
 
-const drawSnake = ctx => snake => {
-  drawCircle(ctx, snake.x, snake.y, snake.radius)
+const drawSnake = (ctx, alpha) => snake => {
+  const x = snake.x * alpha + snake.prev.x * (1 - alpha)
+  const y = snake.y * alpha + snake.prev.y * (1 - alpha)
+  drawCircle(ctx, x, y, snake.radius)
 }
 
 const draw = state => {
-  const { ctx, snakes } = state
-  snakes.forEach(drawSnake(ctx))
+  const { alpha, ctx, snakes } = state
+  snakes.forEach(drawSnake(ctx, alpha))
 }
 
 export default { init, draw }

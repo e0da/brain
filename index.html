@@ -3,8 +3,13 @@
   <head>
     <title>brain</title>
     <link rel="stylesheet" href="main.css" />
-    <script defer src="//livejs.com/live.js"></script>
-    <script defer src="main.mjs" type="module"></script>
+    <script src="//livejs.com/live.js"></script>
+    <!-- Enumerate all modules because it facilitates live.js reloading -->
+    <script type="module" src="config.mjs"></script>
+    <script type="module" src="drawing.mjs"></script>
+    <script type="module" src="input.mjs"></script>
+    <script type="module" src="main.mjs"></script>
+    <script type="module" src="snakes.mjs"></script>
   </head>
   <body>
     <canvas></canvas>
