@@ -16,10 +16,14 @@ const drawSnake = (ctx, alpha) => snake => {
   const x = snake.x * alpha + snake.prev.x * (1 - alpha)
   const y = snake.y * alpha + snake.prev.y * (1 - alpha)
   drawCircle(ctx, x, y, snake.radius)
+  snake.tail.forEach(link => {
+    drawCircle(ctx, link.x, link.y, snake.radius)
+  })
 }
 
 const draw = state => {
-  const { alpha, ctx, snakes } = state
+  const { alpha, ctx, width, height, snakes } = state
+  ctx.clearRect(0, 0, width, height)
   snakes.forEach(drawSnake(ctx, alpha))
 }
 
