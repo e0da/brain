@@ -2,9 +2,10 @@
 
 import Config from './config.mjs'
 import Drawing from './drawing.mjs'
-import Input from './input.mjs'
-import Snakes from './snakes.mjs'
 import Food from './food.mjs'
+import Input from './input.mjs'
+import Physics from './physics.mjs'
+import Snakes from './snakes.mjs'
 
 const init = ({ alpha, width, height }) => {
   const ctx = Drawing.init({ width, height })
@@ -28,6 +29,7 @@ const update = state => (now = 0) => {
   state.dt = now - state.lastFrame
   state.lastFrame = now
   Input.update(state)
+  Physics.update(state)
   Food.update(state)
   Snakes.update(state)
   Drawing.draw(state)

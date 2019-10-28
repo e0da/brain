@@ -1,5 +1,3 @@
-const FOOD_RADIUS = 5
-
 const init = ({ width, height }) => {
   const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext('2d')
@@ -23,8 +21,8 @@ const drawSnake = (ctx, alpha) => snake => {
   })
 }
 
-const drawFood = ctx => ({ x, y }) => {
-  drawCircle(ctx, x, y, FOOD_RADIUS)
+const drawFood = ctx => ({ x, y, radius }) => {
+  drawCircle(ctx, x, y, radius)
 }
 
 const draw = state => {

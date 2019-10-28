@@ -1,5 +1,6 @@
 import { now } from './util.mjs'
 
+export const RADIUS = 5
 const MAX = 5
 const COOLDOWN = 5000
 const PROBABILITY = 0.01 // Probability each non-cooldown frame a food will appear
@@ -11,8 +12,14 @@ const randomLocation = ({ width, height }) => {
 }
 
 const add = ({ width, height, food }) => {
-  console.log('adding')
-  const piece = randomLocation({ width, height })
+  const { x, y } = randomLocation({ width, height })
+  const piece = {
+    x,
+    y,
+    radius: RADIUS,
+    events: [],
+    eaten: false,
+  }
   food.pieces.push(piece)
   food.cooldown = now()
 }
@@ -22,7 +29,6 @@ const init = ({ width, height }) => {
     cooldown: 0,
     pieces: [],
   }
-  add({ width, height, food })
   return food
 }
 
@@ -36,6 +42,20 @@ const update = ({ width, height, food }) => {
   ) {
     add({ width, height, food })
   }
+  food.pieces.forEach((piece, index) => {
+    while (piece.events.length > 0) {
+      const event = piece.events.pop()
+      switch (event) {
+        case 'eaten':
+          piece.eaten = true
+          break
+        default:
+      }
+    }
+    if (piece.eaten) {
+      food.pieces.splice(index, 1)
+    }
+  })
 }
 
 export default { init, update }

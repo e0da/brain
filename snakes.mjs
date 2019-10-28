@@ -23,6 +23,10 @@ const grow = (snake, increment = GROWTH_INCREMENT) => {
   snake.growCooldown = now()
 }
 
+const shrink = (snake, decrement = 1) => {
+  times(decrement, () => snake.tail.pop())
+}
+
 const build = (width, height) => {
   const [initialX, initialY] = [width / 2, height / 2]
   const snake = {
@@ -37,6 +41,7 @@ const build = (width, height) => {
       y: initialY,
     },
     tail: [],
+    events: [],
   }
   grow(snake, LENGTH_MIN)
   return snake
@@ -59,12 +64,13 @@ const moveTail = snake => {
 
 const growCooldownOK = snake => now() - snake.growCooldown > GROW_COOLDOWN
 
-const move = ({
-  width,
-  height,
-  input: { left, right, up, down, btnA },
-}) => snake => {
+const move = (
+  { width, height, input: { left, right, up, down, btnA, btnB } },
+  snake
+) => {
   if (btnA && growCooldownOK(snake)) grow(snake)
+
+  if (btnB) shrink(snake)
 
   if (left) snake.rotation -= TURN_RATE
   if (right) snake.rotation += TURN_RATE
@@ -92,7 +98,18 @@ const move = ({
 
 const update = state => {
   const { snakes } = state
-  snakes.forEach(move(state))
+  snakes.forEach(snake => {
+    while (snake.events.length > 0) {
+      const event = snake.events.pop()
+      switch (event) {
+        case 'ate':
+          grow(snake)
+          break
+        default:
+      }
+    }
+    move(state, snake)
+  })
 }
 
 const init = ({ width, height }) => {
