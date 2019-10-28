@@ -5,6 +5,7 @@ const init = () => {
     up: false,
     down: false,
     btnA: false,
+    btnX: false,
   }
   const keyMap = {
     KeyA: 'left',
@@ -20,6 +21,7 @@ const init = () => {
     KeyK: 'down',
     ArrowDown: 'down',
     Space: 'btnA',
+    KeyF: 'btnX',
   }
   window.addEventListener('keydown', ({ code }) => {
     const action = keyMap[code]

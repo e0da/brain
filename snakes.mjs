@@ -1,3 +1,5 @@
+import { now } from './util.mjs'
+
 const GROW_COOLDOWN = 1000
 const GROWTH_INCREMENT = 25
 const LENGTH_MAX = 1000
@@ -11,7 +13,6 @@ const TURN_RATE = 0.1
 
 const emptyArray = n => Array(n).fill(null)
 const times = (n, callback) => emptyArray(n).map(callback)
-const now = () => new Date().getTime()
 
 const grow = (snake, increment = GROWTH_INCREMENT) => {
   times(increment, () => {
@@ -41,10 +42,9 @@ const build = (width, height) => {
   return snake
 }
 
-const add = state => {
-  const { width, height } = state
+const add = ({ width, height, snakes }) => {
   const snake = build(width, height)
-  state.snakes.push(snake)
+  snakes.push(snake)
 }
 
 const moveTail = snake => {
@@ -92,8 +92,13 @@ const move = ({
 
 const update = state => {
   const { snakes } = state
-  if (snakes.length === 0) add(state)
   snakes.forEach(move(state))
 }
 
-export default { update }
+const init = ({ width, height }) => {
+  const snakes = []
+  add({ width, height, snakes })
+  return snakes
+}
+
+export default { init, update }

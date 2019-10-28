@@ -1,4 +1,6 @@
-const init = (width, height) => {
+const FOOD_RADIUS = 5
+
+const init = ({ width, height }) => {
   const canvas = document.querySelector('canvas')
   const ctx = canvas.getContext('2d')
   canvas.width = width
@@ -21,10 +23,15 @@ const drawSnake = (ctx, alpha) => snake => {
   })
 }
 
+const drawFood = ctx => ({ x, y }) => {
+  drawCircle(ctx, x, y, FOOD_RADIUS)
+}
+
 const draw = state => {
-  const { alpha, ctx, width, height, snakes } = state
+  const { alpha, ctx, width, height, snakes, food } = state
   ctx.clearRect(0, 0, width, height)
   snakes.forEach(drawSnake(ctx, alpha))
+  food.pieces.forEach(drawFood(ctx))
 }
 
 export default { init, draw }
