@@ -1,15 +1,16 @@
 import { now, handleEvents } from './util.mjs'
 
-const GROW_COOLDOWN = 1000
+export const LENGTH_MIN = 15
+
 const GROWTH_INCREMENT = 25
 const LENGTH_MAX = 1000
-const LENGTH_MIN = 15
 const RADIUS = 10
 const SPEED = 3
 const SPEED_INCREMENT = 0.1
 const SPEED_MAX = 10
 const SPEED_MIN = 1
 const TURN_RATE = 0.1
+const TAIL_DEFAULT = { x: 0, y: 0, radius: RADIUS }
 
 const emptyArray = n => Array(n).fill(null)
 const times = (n, callback) => emptyArray(n).map(callback)
@@ -18,9 +19,8 @@ const grow = (snake, increment = GROWTH_INCREMENT) => {
   times(increment, () => {
     const { x, y } =
       snake.tail.length > 0 ? snake.tail[snake.tail.length - 1] : snake.prev
-    snake.tail.push({ snake, x, y })
+    snake.tail.push({ snake, ...TAIL_DEFAULT, x, y })
   })
-  snake.growCooldown = now()
 }
 
 const shrink = (snake, decrement = 1) => {
@@ -35,7 +35,6 @@ const build = (width, height) => {
     rotation: -Math.PI / 2,
     radius: RADIUS,
     speed: SPEED,
-    growCooldown: 0,
     prev: {
       x: initialX,
       y: initialY,
@@ -53,19 +52,20 @@ const add = ({ width, height, snakes }) => {
 }
 
 const moveTail = snake => {
-  const { prev, tail } = snake
-  const neck = { snake, ...prev }
+  const {
+    prev: { x, y },
+    tail,
+  } = snake
+  const neck = { snake, ...TAIL_DEFAULT, x, y }
   tail.unshift(neck)
   tail.pop()
 }
-
-const growCooldownOK = snake => now() - snake.growCooldown > GROW_COOLDOWN
 
 const move = (
   { width, height, input: { left, right, up, down, btnA, btnB } },
   snake
 ) => {
-  if (btnA && growCooldownOK(snake)) grow(snake)
+  if (btnA) grow(snake, 1)
 
   if (btnB) shrink(snake)
 
@@ -96,10 +96,14 @@ const move = (
 const update = state => {
   const { snakes } = state
   snakes.forEach(snake => {
-    handleEvents(snake, event => {
-      switch (event) {
+    handleEvents(snake, ({ segment, type }) => {
+      switch (type) {
         case 'ate':
           grow(snake)
+          break
+        case 'bitten':
+          const breakPoint = snake.tail.indexOf(segment)
+          snake.tail.splice(breakPoint)
           break
         default:
       }

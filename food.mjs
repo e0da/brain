@@ -43,8 +43,8 @@ const update = ({ width, height, food }) => {
     add({ width, height, food })
   }
   food.pieces.forEach((piece, index) => {
-    handleEvents(piece, event => {
-      switch (event) {
+    handleEvents(piece, ({ type }) => {
+      switch (type) {
         case 'eaten':
           piece.eaten = true
           break
