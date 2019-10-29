@@ -5,7 +5,7 @@ const GROWTH_INCREMENT = 25
 const LENGTH_MAX = 1000
 const LENGTH_MIN = 15
 const RADIUS = 10
-const SPEED = 2
+const SPEED = 3
 const SPEED_INCREMENT = 0.1
 const SPEED_MAX = 10
 const SPEED_MIN = 1
@@ -53,13 +53,10 @@ const add = ({ width, height, snakes }) => {
 }
 
 const moveTail = snake => {
-  if (snake.tail.length === 0) return
-  for (let i = snake.tail.length - 1; i > 0; i--) {
-    snake.tail[i].x = snake.tail[i - 1].x
-    snake.tail[i].y = snake.tail[i - 1].y
-  }
-  snake.tail[0].x = snake.prev.x
-  snake.tail[0].y = snake.prev.y
+  const { prev, tail } = snake
+  const neck = { snake, ...prev }
+  tail.unshift(neck)
+  tail.pop()
 }
 
 const growCooldownOK = snake => now() - snake.growCooldown > GROW_COOLDOWN
