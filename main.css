@@ -3,3 +3,9 @@ html {
   color: #dedede;
 }
 
+canvas {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  user-select: none;
+}
