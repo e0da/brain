@@ -1,4 +1,4 @@
-import { now } from './util.mjs'
+import { now, handleEvents } from './util.mjs'
 
 const GROW_COOLDOWN = 1000
 const GROWTH_INCREMENT = 25
@@ -96,15 +96,14 @@ const move = (
 const update = state => {
   const { snakes } = state
   snakes.forEach(snake => {
-    while (snake.events.length > 0) {
-      const event = snake.events.pop()
+    handleEvents(snake, event => {
       switch (event) {
         case 'ate':
           grow(snake)
           break
         default:
       }
-    }
+    })
     move(state, snake)
   })
 }

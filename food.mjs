@@ -1,4 +1,4 @@
-import { now } from './util.mjs'
+import { now, handleEvents } from './util.mjs'
 
 export const RADIUS = 5
 const MAX = 5
@@ -43,15 +43,14 @@ const update = ({ width, height, food }) => {
     add({ width, height, food })
   }
   food.pieces.forEach((piece, index) => {
-    while (piece.events.length > 0) {
-      const event = piece.events.pop()
+    handleEvents(piece, event => {
       switch (event) {
         case 'eaten':
           piece.eaten = true
           break
         default:
       }
-    }
+    })
     if (piece.eaten) {
       food.pieces.splice(index, 1)
     }
