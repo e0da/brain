@@ -2,8 +2,8 @@ import { now, handleEvents } from './util.mjs'
 
 export const RADIUS = 5
 const MAX = 5
-const COOLDOWN = 5000
-const PROBABILITY = 0.01 // Probability each non-cooldown frame a food will appear
+const COOLDOWN = 2000
+const PROBABILITY = 0.008 // Probability each non-cooldown frame a food will appear
 
 const randomLocation = ({ width, height }) => {
   const x = Math.random() * width
