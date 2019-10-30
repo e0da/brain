@@ -8,4 +8,5 @@ canvas {
   margin: auto;
   max-width: 100%;
   user-select: none;
+  border: 1px solid #333;
 }
