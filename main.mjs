@@ -6,6 +6,8 @@ import Food from './food.mjs'
 import Input from './input.mjs'
 import Physics from './physics.mjs'
 import Snakes from './snakes.mjs'
+import Page from './page.mjs'
+import { handleEvents } from './util.mjs'
 
 const init = ({ alpha, width, height }) => {
   const ctx = Drawing.init({ width, height })
@@ -22,6 +24,8 @@ const init = ({ alpha, width, height }) => {
     snakes,
     dt: 0,
     lastFrame: 0,
+    score: 0,
+    events: [],
   }
 }
 
@@ -33,6 +37,15 @@ const update = state => (now = 0) => {
   Food.update(state)
   Snakes.update(state)
   Drawing.draw(state)
+  Page.render(state)
+  handleEvents(state, ({ type, amount }) => {
+    switch (type) {
+      case 'score':
+        state.score = Math.floor(state.score + amount)
+        break
+      default:
+    }
+  })
   window.requestAnimationFrame(update(state))
 }
 

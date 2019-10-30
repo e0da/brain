@@ -10,3 +10,10 @@ canvas {
   user-select: none;
   border: 1px solid #333;
 }
+
+#score {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 3em;
+  margin: 0.25em;
+}

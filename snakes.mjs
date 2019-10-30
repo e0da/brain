@@ -1,16 +1,16 @@
 import { now, handleEvents } from './util.mjs'
 
 export const LENGTH_MIN = 15
+export const GROWTH_INCREMENT = 25
 
-const GROWTH_INCREMENT = 25
 const LENGTH_MAX = 1000
 const RADIUS = 10
 const SPEED = 4
 const SPEED_INCREMENT = 0.1
 const SPEED_MAX = 10
 const SPEED_MIN = 1
-const TURN_RATE = 0.1
 const TAIL_DEFAULT = { x: 0, y: 0, radius: RADIUS }
+const TURN_RATE = 0.1
 
 const emptyArray = n => Array(n).fill(null)
 const times = (n, callback) => emptyArray(n).map(callback)
