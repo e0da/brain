@@ -1,25 +1,25 @@
 import {
-  LENGTH_MIN as SNAKE_LENGTH_MIN,
-  GROWTH_INCREMENT as SNAKE_GROWTH_INCREMENT,
-} from './snakes.mjs'
+  LENGTH_MIN as WEEM_LENGTH_MIN,
+  GROWTH_INCREMENT as WEEM_GROWTH_INCREMENT,
+} from './weems.mjs'
 import { now } from './util.mjs'
 
 const collide = ({ x: ax, y: ay, radius: ar }, { x: bx, y: by, radius: br }) =>
   Math.abs(Math.hypot(ax - bx, ay - by)) < ar + br
 
-const update = ({ snakes, events, food: { pieces } }) => {
-  snakes.forEach(snake => {
+const update = ({ weems, events, food: { pieces } }) => {
+  weems.forEach(weem => {
     pieces.forEach(piece => {
-      if (collide(snake, piece)) {
-        snake.events.push({ type: 'ate' })
+      if (collide(weem, piece)) {
+        weem.events.push({ type: 'ate' })
         piece.events.push({ type: 'eaten' })
-        events.push({ type: 'score', amount: SNAKE_GROWTH_INCREMENT })
+        events.push({ type: 'score', amount: WEEM_GROWTH_INCREMENT })
       }
     })
-    snake.tail.slice(SNAKE_LENGTH_MIN).forEach((segment, index) => {
-      if (collide(snake, segment)) {
-        snake.events.push({ type: 'bitten', segment })
-        const amount = -(snake.tail.length - index) * 1.2
+    weem.tail.slice(WEEM_LENGTH_MIN).forEach((segment, index) => {
+      if (collide(weem, segment)) {
+        weem.events.push({ type: 'bitten', segment })
+        const amount = -(weem.tail.length - index) * 1.2
         events.push({ type: 'score', amount, unique: true })
       }
     })
