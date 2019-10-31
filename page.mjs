@@ -10,7 +10,7 @@ const cachedNode = selector => {
 
 const scoreNode = () => cachedNode('#score')
 
-const render = ({ score }) => {
+const render = ({ meta: { score } }) => {
   scoreNode().innerText = score
 }
 
